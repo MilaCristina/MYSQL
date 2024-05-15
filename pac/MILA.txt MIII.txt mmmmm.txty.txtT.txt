@@ -1,0 +1,1132 @@
+======= PROCEDIMENTO PROCEDURE ========
+
+PROGRAMAR NO VISUALG  
+INICIO
+VAR
+NUMERO1 : INTEIRO;
+NUMERO2 : INTEIRO;
+SOMA : REAL;
+
+// ENTRADA 
+PRINT("ESCREVA UM NÚMERO
+
+
+
+
+#VERIFICAR QUAL É O TERMINADOR UTILIZADO #NO MYSQL
+STATUS 
+
+#MODIFICANDO O TERMINADOR NO MYSQL
+
+DELIMITER $
+
+
+#CRIAR PROCEDIMENTO -> PROGRAMA 
+
+CREATE PROCEDURE DIFERENCA()BEGIN
+SELECT 100 - 20 ;
+
+END $
+
+#CHAMAR UM PROCEDIMENTO 
+CALL DIFERENCA() $
+
+CREATE PROCEDURE MILA()BEGIN SELECT 100 + 20 + 70 ; END $
+
+#PROCEDIMENTO COM PASSAGEM DE PARÂMETRO 
+CREATE PROCEDURE SOMA (NUMERO1 INT, NUMERO2 INT) BEGIN 
+SELECT NUMERO1 + NUMERO2 AS "SOMA";
+END $
+
+# EXECUTAR ESTE PROCEDIMENTO 
+
+CALL SOMA( 3668, 100)$ 
+
+CALL SOMA(200, 400)$ 
+CALL SOMA(1200, 2400)$ 
+CALL SOMA(6200, 4400)$ 
+CALL SOMA(2040, 4010)$ 
+
+CREATE PROCEDURE MEDIA3(NUMERO1 INT, NUMERO2 INT) BEGIN 
+SELECT NUMERO1 + NUMERO2 AS "SOMA",(NUMERO1 + NUMERO2)/2 AS "MÉDIA";
+END $
+
+
+DELIMITER
+CALL SOMA( 3000, 2500)$ 
+
+
+DELIMITER ;
+
+CREATE TABLE PESSOA(IDPESSOA INT PRIMARY KEY AUTO_INCREMENT,
+NOME VARCHAR(30) NOT NULL,
+IDADE VARCHAR(2) NOT NULL,
+SEXO ENUM('M','F') NOT NULL,
+EMAIL VARCHAR(30)UNIQUE );
+
+INSERT INTO PESSOA VALUE(NULL,'EMILLY',20,'F','EMILLY@GLOBO.COM');
+INSERT INTO PESSOA VALUE(NULL,'ANDRESSA',19,'F','ANDRESSA@GMAIL.COM');
+INSERT INTO PESSOA VALUE(NULL,'CAROLINE',17,'F','CAROLINE@IPIRANGA.COM');
+INSERT INTO PESSOA VALUE(NULL,'LPAULO',20,'M','LPAULO@GLOBO.COM');
+INSERT INTO PESSOA VALUE(NULL,'SIDNEI',28,'M','SIDNEI@GMIAL.COM');
+INSERT INTO PESSOA VALUE(NULL,'KAUA',22,'M','KAUA@GMAIL.COM');
+INSERT INTO PESSOA VALUE(NULL,'FLAVIO',25,'M','FLAVIO@GLOBO.COM');
+
+SELECT * FROM PESSOA;
+
+
+
+
+mysql> select * from pessoa;
++----------+----------+-------+------+-----------------------+
+| IDPESSOA | NOME     | IDADE | SEXO | EMAIL                 |
++----------+----------+-------+------+-----------------------+
+|        1 | EMILLY   | 20    | F    | EMILLY@GLOBO.COM      |
+|        2 | ANDRESSA | 19    | F    | ANDRESSA@GMAIL.COM    |
+|        3 | CAROLINE | 17    | F    | CAROLINE@IPIRANGA.COM |
+|        4 | LPAULO   | 20    | M    | LPAULO@GLOBO.COM      |
+|        5 | SIDNEI   | 28    | M    | SIDNEI@GMIAL.COM      |
+|        6 | KAUA     | 22    | M    | KAUA@GMAIL.COM        |
+|        7 | FLAVIO   | 25    | M    | FLAVIO@GLOBO.COM      |
++----------+----------+-------+------+-----------------------+
+7 rows in set (0.01 sec)
+mysql>
+
+# CRIAR TABELA 
+CREATE TABLE TELEFONE(
+IDTELEFONE INT PRIMARY KEY AUTO_INCREMENT,
+TIPO ENUM('CEL','RES','COM') NOT NULL,
+NUMERO CHAR (10),
+ID_PESSOA INT,
+FOREIGN KEY(ID_PESSOA) REFERENCES PESSOA(IDPESSOA)
+);
+
+INSERT INTO TELEFONE VALUES(NULL,'CEL','9999-0000',1);
+INSERT INTO TELEFONE VALUES(NULL,'RES','8888-5546',1);
+INSERT INTO TELEFONE VALUES(NULL,'CEL','6666-9999',2);
+INSERT INTO TELEFONE VALUES(NULL,'CEL','9999-6666',2);
+INSERT INTO TELEFONE VALUES(NULL,'RES','8888-3333',2);
+
+
+INSERT INTO TELEFONE VALUES(NULL,'CEL','9999-5555',3);
+INSERT INTO TELEFONE VALUES(NULL,'CEL','9999-4444',3);
+INSERT INTO TELEFONE VALUES(NULL,'RES','8888-9999',4);
+INSERT INTO TELEFONE VALUES(NULL,'CEL','9999-1111',5);
+INSERT INTO TELEFONE VALUES(NULL,'CEL','9999-3574',6);
+INSERT INTO TELEFONE VALUES(NULL,'RES','8888-6548',7);
+
+# TROCAR O DELIMITER $ 
+# RELATÓRIO 
+
+CREATE PROCEDURE RELATORIO() 
+BEGIN 
+SELECT P.NOME,P.EMAIL,T.NUMERO
+FROM PESSOA P 
+INNER JOIN TELEFONE T 
+ON P.IDPESSOA = T.ID_PESSOA;
+END$ 
+
+CALL RELATORIO() $
+
+
+===== CRIAR PROCEDIMENTO ======
+
+CREATE PROCEDURE C_TEL3( P_TIPO 
+CHAR(3), P_NUMERO CHAR(10),P_ID INT) 
+BEGIN
+ INSERT INTO TELEFONE 
+VALUES(NULL,P_TIPO,
+P_NUMERO,P_ID);
+ END
+$
+
+=== EXECUTANTO O PROCEDIMENTO TELEFONE CRIADO =====
+CALL C_TEL3("CEL","1111-1111",7)$
+CALL C_TEL3("COM","2222-2222",7)$
+
+
+CREATE PROCEDURE C_TEL4 
+(P_NUMERO CHAR(10),P_ID INT,P_TIPO CHAR(3))
+BEGIN
+
+INSERT INTO TELEFONE VALUES(NULL,P_TIPO,P_NUMERO,P_ID);
+END
+$
+ 
+CALL C_TEL4("1111-1111",7,"RES")$
+
+SELECT * FROM TELEFONE$
+
+
+SHOW TABLES;
+DESC PESSOA;
+SELECT * FROM PESSOA;
+
+
+CREATE TABLE BACKUP_PESSOA(
+IDBACKUP INT PRIMARY KEY AUTO_INCREMENT,
+IDPESSOA INT,
+NOME VARCHAR(30),
+IDADE INT,
+SEXO CHAR(1),
+EMAIL VARCHAR(30),
+OPERACAO VARCHAR(30)
+
+=== TRIGGER ===
+
+CREATE TRIGGER BKP_PESSOA 
+BEFORE DELETE ON PESSOA 
+FOR EACH ROW
+BEGIN 
+INSERT INTO BACKUP_PESSOA VALUES
+(NULL,OLD.IDPESSOA,OLD.NOME,OLD.IDADE,OLD.SEXO,OLD.EMAIL,'DELETADO');
+END
+$
+
+COMANDO PARA APAGAR REGISTRO EM TABELA 
+
+DELETE FROM PESSOA WHERE IDPESSOA = 1; 
+$
+
+
+======TRIGGER=======
+CREATE TRIGGER BKP_PESSOA_INS
+AFTER INSERT ON PESSOA FOR EACH ROW 
+BEGIN
+INSERT INTO BACHUP_PESSOA VALUES
+(NULL,NEW.IDPESSOA,NEW.NOME,NEW.IDADE,NEW.SEXO,NEW.EMAIL,'INSERÇÃO');
+
+END
+$
+
+alter table telefone add constraint fk_telefone foreign key(id_pessoa) references pessoa(idpessoa) on delete cascade;
+
+
+
+
+insert into pessoa values
+(null,'estevão',30,'m','estevaao@golplaca')$
+
+select * from pessoa$select * from pessoa$
+select * from backup_pessoa$ 
+
+
+create table produto(
+idproduto int primary key auto_increment,
+nome varchar(30),
+categoria varchar(30),
+preco float(10,2)
+);
+
+
+create database backup;$
+
+
+
+UPDATE PRODUTO SET PRECO = PRECO * 1.1 WHERE
+
+1.1 = 10%
+
+CRIAR UMA BASE NOVA 
+
+
+CREATE DATABASE ATIVIDADE;
+USE ATIVIDADE;
+
+
+CREATE TABLE FUNCIONARIO(
+IDFUNCIONARIO INT PRIMARY KEY AUTO_INCREMENT,
+NOME VARCHAR(30) NOT NULL,
+SETOR VARCHAR(30),
+SALARIO FLOAT(10,2)
+);
+
+=== descreva a estrutura da tabela funcionario
+desc funcionario;
+
+===selecionar todos os registros da tabela 
+select * from funcionario;
+
+==== inserir 10 funcionarios 
+insert into funcionario values(null,'maria','TI',10100.00); 
+insert into funcionario values(null,'clara','ADM',10200.00); 
+insert into funcionario values(null,'joana','ADM',10300.00); 
+insert into funcionario values(null,'milena','R.H',10400.00); 
+insert into funcionario values(null,'carol','R.H',10500.00); 
+insert into funcionario values(null,'carlos','TI',10600.00); 
+insert into funcionario values(null,'renata','PROFESSORA',10700.00); 
+insert into funcionario values(null,'pamela','ADM',10800.00); 
+insert into funcionario values(null,'ana','ADM',10900.00); 
+insert into funcionario values(null,'rita','PROFESSORA',11000.00); 
+
+select * from funcionario;
+
+
+criar um tiger que ao inserir, ja insira um acrescimo 
+de 10% em cima de cada salario 
+
+create trigger gat_salario 
+before insert on funcionarios 
+for each row
+begin 
+set new.salario := new.salario * 1.1;
+
+end
+$
+ INSERT INTO FUNCIONARIO VALUES 
+(NULL,'CRISTINA','CUIDADORA',8000.00)$
+
+SELECT * FROM FUNCIONARIO$
+
+==============================
+CRIE UMA TABELA CHAMADA DESCONTO COM AS COLUNAS, TRANSPORTE,
+FGTS,INSS E AO INSERIR UM FUNCIONARIO EM FUNCIONARIOS, INSIRA 
+NA TABELA DE DESCONTO OS VALORES DESCONTADOS EM CIMA DO SALARIO.
+TRANSPORTE - 6% ( *6 /100)
+FGTS - 8% ( *8 /100)
+INSS - 11% 
+
+CREATE TABLE DESCONTO(
+IDFUNCIONARIO INT,
+TRANSPORTE FLOAT(10,2),
+FGTS FLOAT(10,2),
+INSS FLOAT(10,2)
+);
+
+create trigger gat_desconto 
+after insert on funcionarios 
+for each row
+begin 
+
+insert into desconto values (new.idfuncionario,
+new.salario *6)/100,(new.salario
+* 8)/100,(new.salario * 11)/100);
+
+
+end
+$
+
+
+
+============ criar banco para aula do dia 29 de abril ============
+
+### create database banco13;
+use banco13;
+
+
+## criar uma tabela 
+
+create table mysql(
+nome varchar(30),
+email varchar(30)
+);
+
+
+
+create table sqlserver(
+nome varchar(30),
+email varchar(30)
+);
+
+insert into mysql values('gustavo','gustavo@gmail.com');
+insert into mysql values('mila','mila@gmail.com');
+insert into mysql values('pamela','pamela@gmail.com');
+insert into mysql values('angelo','angelo@gmail.com');
+insert into mysql values('pedrocarlos','pc@gmail.com');
+insert into mysql values('joaocarlos','jc@gmail.com');
+
+select * from mysql;
+
+
+
+
+insert into sqlserver values('gustavo','gustavo@gmail');
+insert into sqlserver values('mila','mila@gmail');
+insert into sqlserver values('pamela','pamela@gmail');
+insert into sqlserver values('flavio','flavio@gmail');
+insert into sqlserver values('kaua','kaua@gmail');
+insert into sqlserver values('sidnei','sidnei@hotmail');
+insert into sqlserver values('luizpaulo','lp@hotmail');
+insert into sqlserver values('andressa','andressa@gmail');
+insert into sqlserver values('caroline','carolinegmail');
+
+select * from sqlserver;
+
+
+
+// trazendo informação de mais de uma tabela//
+
+select * from mysql 
+union all
+select * from sqlserver;
+
+
+//alunos e mysql que não estão em sqlserver//
+
+select distinct nome, email
+from mysql 
+where(nome,email) in (select nome, email 
+from sqlserver); 
+
+
+// alunos que estão nas duas tabelas 
+
+select distinct nome, email 
+from sqlserver
+where(nome,email) not in (select nome, email 
+from mysql);
+
+// tabela merge - união de tabela para balanceamento de cargas //
+
+create table janeiro(
+nome varchar(30) not null,
+valor float(10,2) not null
+)engine=myisam;
+
+
+create table fevereiro(
+nome varchar(30) not null,
+valor float(10,2) not null
+)engine=myisam;
+
+
+create table marco(
+nome varchar(30) not null,
+valor float(10,2) not null
+)engine=myisam;
+
+
+
+insert into janeiro values('A',100.00),('B',200.00),('C',300.00),('D',400.00),('E',500.00);
+
+
+insert into fevereiro values('F',200.00),('G',400.00),('H',600.00),('I',800.00),('J',1000.00);
+
+
+insert into marco values('K',1100.00),('L',1200.00),('M',1300.00),('N',1400.00),('O',1500.00);
+
+ 
+create table trimestre(
+ nome varchar(30) not null,
+valor float(10,2) not null
+)engine=merge union=(janeiro, fevereiro,marco);
+
+
+
+// rollup 
+
+create table venda(
+codigo
+int primary key auto_increment,
+vendedor varchar(40) not null,
+valor float not null,
+mes int not null
+);
+
+
+insert into venda values(null,'rui',20000,1);
+insert into venda values(null,'rui',30000,2);
+insert into venda values(null,'rui',40000,3);
+insert into venda values(null,'maria',10000,1);
+insert into venda values(null,'maria',30000,2);
+insert into venda values(null,'maria',50000,3);
+insert into venda values(null,'debora',10000,1);
+insert into venda values(null,'debora',20000,2);
+insert into venda values(null,'vilma',20000,3);
+insert into venda values(null,'vilma',30000,1);
+insert into venda values(null,'antonia',40000,2);
+insert into venda values(null,'antonia',50000,3);
+
+select * from vendas;
+
+
+===========================================================
+
+//conectar base de dados 
+
+use banco14;
+
+//visualizar todas as tabelas do banco
+
+show tables;
+
+//selecionar todos os campos de entidade 
+
+select * from janeiro;
+select * from fevereiro;
+select * from marco;
+select * from trimestre;
+
+// criar uma tabela de usuarios 
+
+create table usuarios(
+idusuario int primary key auto_increment,
+nome varchar(30) not null,
+login varchar(30) not null unique,
+senha varchar(100) not null,
+setor varchar(20) not null
+);
+
+
+insert into usuarios values(null,'andressa','seinao',md5('seila'),'ti');
+insert into usuarios values(null,'mila','seinao',md5('seila'),'banco de dados');
+insert into usuarios values(null,'joao pedro','jp',md5('123456'),'ti');
+insert into usuarios values(null,'amanda','amanda',md5('222222'),'projeto');
+insert into usuarios values(null,'douglas','dd20',md5('333333'),'desenvolvimento');
+insert into usuarios values(null,'valeria','lexa',md5('444444'),'ti');
+insert into usuarios values(null,'zelia','zeze',md5('555555'),'banco de dados');
+
+
+
+
+
+select * from usuarios;
+
+
+=-===============================================================
+# CREATE DATABASE ATIVIDADE3;
+
+# conectar uma base de dados
+\c atividade3;
+
+
+# CRIAR TABELA NO POSTGRES
+
+CREATE TABLE PACIENTE(
+	IDPACIENTE SERIAL PRIMARY KEY,
+	NOME VARCHAR(30)
+);
+
+INSERT INTO PACIENTE(NOME) VALUES('ANDRESSA');
+INSERT INTO PACIENTE(NOME) VALUES('JAINE');
+INSERT INTO PACIENTE(NOME) VALUES('EMILLY');
+INSERT INTO PACIENTE(NOME) VALUES('MILA');
+INSERT INTO PACIENTE(NOME) VALUES('IVONE');
+
+# VISUALIZAR OS DADOS DA TABELA DE PACIENTE
+
+
+CREATE TABLE MEDICO(
+	IDMEDICO SERIAL PRIMARY KEY,
+	NOME VARCHAR(30),
+	ESPECIALIDADE VARCHAR(30)
+);
+
+INSERT INTO MEDICO(NOME,ESPECIALIDADE) VALUES('ANDRESSA','PEDIATRA');
+INSERT INTO MEDICO(NOME,ESPECIALIDADE) VALUES('KAIKY','ORTOPEDISTA');
+INSERT INTO MEDICO(NOME,ESPECIALIDADE) VALUES('JP','GERIATRA');
+INSERT INTO MEDICO(NOME,ESPECIALIDADE) VALUES('ANGELO','NEUROLOGISTA');
+INSERT INTO MEDICO(NOME,ESPECIALIDADE) VALUES('LUIZ PAULO','PSIQUIATRA');
+INSERT INTO MEDICO(NOME,ESPECIALIDADE) VALUES('CAROLINE','DENTISTA'
+
+
+
+
+create table hospital(
+       idhospital serial primary key,
+       nome varchar(30)
+);
+
+insert into hospital(nome) values('into');
+insert into hospital(nome) values('gafree guinle');
+insert into hospital(nome) values('hce');
+insert into hospital(nome) values('miguel couto');
+insert into hospital(nome) values('bonsucesso');
+insert into hospital(nome) values('fernando magalhaes');
+insert into hospital(nome) values('fernandes figueira');
+insert into hospital(nome) values('rocha maia');
+insert into hospital(nome) values('maria amelia');
+
+
+
+# VISUALIZAR OS REGISTROS DE UMA TABELA
+select * from hospital;
+select * from paciente;
+select * from medico;
+
+=========================== SQL ==============
+== CRIAR ===
+create database recuperacao;
+
+== VISUALIZAR == 
+\L
+
+== CONECTAR ==
+\c recuperacao;
+
+
+create table hospital(
+       idhospital serial primary key,
+       nome varchar(30) not null
+);
+
+
+
+CREATE TABLE MEDICO(
+	IDMEDICO SERIAL PRIMARY KEY,
+	NOME VARCHAR(30) NOT NULL,
+	ESPECIALIDADE VARCHAR(30)
+);
+
+
+CREATE TABLE PACIENTE(
+	IDPACIENTE SERIAL PRIMARY KEY,
+	NOME VARCHAR(30) NOT NULL
+);
+
+
+
+CREATE TABLE CONSULTA(
+	IDCONSULTA SERIAL PRIMARY KEY,
+	ID_MEDICO INT,
+        ID_PACIENTE INT,
+        ID_HOSPITAL INT
+);
+ 
+ALTER TABLE CONSULTA ADD CONSTRAINT FK_MEDICO 
+FOREIGN KEY(ID_MEDICO) REFERENCES MEDICO(IDMEDICO);
+
+
+ALTER TABLE CONSULTA ADD CONSTRAINT FK_PACIENTE
+FOREIGN KEY(ID_PACIENTE) REFERENCES PACIENTE(IDPACIENTE);
+
+
+ALTER TABLE CONSULTA ADD CONSTRAINT FK_HOSPITAL
+FOREIGN KEY(ID_HOSPITAL) REFERENCES HOSPITAL(IDHOSPITAL);
+
+
+INSERT INTO MEDICO(NOME, ESPECIALIDADE) VALUES ('GUSTAVO','OTORRINO');
+INSERT INTO MEDICO(NOME, ESPECIALIDADE) VALUES ('MILA','OBSTETRA');
+INSERT INTO MEDICO(NOME, ESPECIALIDADE) VALUES ('IVONE','CLINICA GERAL');
+INSERT INTO MEDICO(NOME, ESPECIALIDADE) VALUES ('JOAO CARLOS','DERMATOLOGISTA');
+INSERT INTO MEDICO(NOME, ESPECIALIDADE) VALUES ('ANGELO','CARDIOLOGISTA');
+
+
+
+INSERT INTO PACIENTE(NOME) VALUES ('JAINE');
+INSERT INTO PACIENTE(NOME) VALUES ('EMILLY');
+INSERT INTO PACIENTE(NOME) VALUES ('CAROLINE');
+INSERT INTO PACIENTE(NOME) VALUES ('ANDRESSA');
+INSERT INTO PACIENTE(NOME) VALUES ('LUIZ PAULO');
+INSERT INTO PACIENTE(NOME) VALUES ('SIDNEIA');
+INSERT INTO PACIENTE(NOME) VALUES ('KAUA');
+INSERT INTO PACIENTE(NOME) VALUES ('KAYKY');
+INSERT INTO PACIENTE(NOME) VALUES ('FLAVIO');
+INSERT INTO PACIENTE(NOME) VALUES ('PAMELA');
+INSERT INTO PACIENTE(NOME) VALUES ('SIMONE');
+
+
+INSERT INTO HOSPITAL(NOME) VALUES ('BONSUCESSO');
+INSERT INTO HOSPITAL(NOME) VALUES ('ROCHA MAIA');
+INSERT INTO HOSPITAL(NOME) VALUES ('PINEL');
+INSERT INTO HOSPITAL(NOME) VALUES ('FERNANDES FIGUEIRAS');
+INSERT INTO HOSPITAL(NOME) VALUES ('CLEMENTINO FRAGA FILHO');
+
+
+
+
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (1,2,4);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (2,2,3);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (2,4,1);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (2,5,2);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (3,5,5);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (3,4,4);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (3,3,3);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (4,1,1);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (4,6,5);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (5,2,2);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (5,3,3);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (5,9,3);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (5,10,3);
+INSERT INTO CONSULTA(ID_MEDICO,ID_PACIENTE,ID_HOSPITAL) VALUES (5,11,3);
+
+
+== selecione o nome do paciente, o nome do médico e o nome do hospital == 
+
+select m.nome, p.nome, h.nome
+from paciente p
+inner join consulta c on p.idpaciente = c.id_paciente
+inner join medico m on m.idmedico = c.id_medico 
+inner join hospital h on h.idhospital = c.id_hospital;
+
+
+== selecione o nome do paciente, o nome do médico,especialidade e o nome do hospital == 
+
+select m.nome, m.especialidade p.nome, h.nome
+from paciente p
+inner join consulta c on p.idpaciente = c.id_paciente
+inner join medico m on m.idmedico = c.id_medico 
+inner join hospital h on h.idhospital = c.id_hospital
+
+
+
+
+
+
+
+
+
+criar uma pasta nome segurança
+
+
+
+c:\Programa Files\Postgresql\16\bin>
+pg_dump -U postgre --inserts recuperacao > c:\Users\Professor\Desktop\seguranca\recuperacao.sql
+
+
+C:\Program Files\PostgreSQL\16\bin
+
+
+=================================
+
+Criar uma pasta na área de trabalho
+Seguranca
+
+
+na pasta bin
+
+C:\Program Files\PostgreSQL\16\bin>
+
+/ ************* BACKUP - CÓPIA DE SEGURANÇA *******************/
+pg_dump -U postgres --inserts recuperacao > C:\Users\Professor\Desktop\seguranca\recuperacao.sql
+
+
+VOLTAMOS AO POSTGRESS.. 
+APAGAMOS O BANCO DE DADOS RECUPERAÇÃO
+CRIAMOS O BANCO NOVAMENTE.
+VOLTAMOS A LINHA DO PROMPT DO WINDOWS
+DIGITAR O COMANDO
+
+C:\Program Files\PostgreSQL\16\bin>psql -U postgres -d recuperacao -f C:\Users\Professor\Desktop\seguranca\recuperacao.sql
+Senha para o usuário postgres:
+SET
+SET
+SET
+SET
+SET
+ set_config
+------------
+
+(1 linha)
+
+
+SET
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER SEQUENCE
+ALTER SEQUENCE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER SEQUENCE
+ALTER SEQUENCE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER SEQUENCE
+ALTER SEQUENCE
+CREATE TABLE
+ALTER TABLE
+CREATE SEQUENCE
+ALTER SEQUENCE
+ALTER SEQUENCE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+ setval
+--------
+     15
+(1 linha)
+
+
+ setval
+--------
+      5
+(1 linha)
+
+
+ setval
+--------
+      5
+(1 linha)
+
+
+ setval
+--------
+     11
+(1 linha)
+
+
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+
+C:\Program Files\PostgreSQL\16\bin>
+
+
+
+CREATE TABLE USUARIO(LOGIN VARCHAR(30),
+SENHA VARCHAR(100),
+ATIVO BOOLEAN
+);
+
+
+INSERT INTO USUARIO VALUES('IVONE','12345',TRUE);
+INSERT INTO USUARIO VALUES('MILA','44444',TRUE);
+INSERT INTO USUARIO VALUES('INDRID','55555',FALSE);
+INSERT INTO USUARIO VALUES('GUSTAVO','66666',TRUE);
+INSERT INTO USUARIO VALUES('ANGELO','77777',TRUE);
+INSERT INTO USUARIO VALUES('FLAVIO','88888',TRUE);
+INSERT INTO USUARIO VALUES('PEDRO','99999',TRUE);
+INSERT INTO USUARIO VALUES('TEREZA','11111',FALSE);
+INSERT INTO USUARIO VALUES('DEBORA','22222',FALSE);
+INSERT INTO USUARIO VALUES('SIDNEIA','33333',TRUE);
+INSERT INTO USUARIO VALUES('LUIZ','12121',TRUE);
+INSERT INTO USUARIO VALUES('ANDRESSA','33113',TRUE);
+
+SELECT * FROM USUARIO;
+SELECT * FROM USUARIO WHERE ATIVO;
+SELECT * FROM USUARIO WHERE NOT ATIVO;
+
+========================================== SqL 08/05 ==============
+
+=== exibir base de dados =====
+\l
+
+==== criar uma base de dados ======
+create database aula30;
+
+
+==== conectar á base de dados =====
+\c aula30;
+
+====== criar tabela ====
+
+create table cliente(
+codcliente integer primary key,
+nome varchar(60) not null,
+email varchar(40) not null,
+renda float not null
+);
+
+ \d cliente;
+
+create table pessoafisica(
+codcliente integer primary key,
+cpf char(14) not null,
+sexo char not null,
+foreign key(codcliente) references cliente(codcliente)
+);
+
+\d
+
+\d pessoafisica;
+
+
+create table pessoajuridica(
+codcliente integer primary key,
+cnpj char(18) not null,
+ramo varchar(20) not null,
+foreign key(codcliente) references cliente(codcliente)
+);
+
+\d
+
+create table endereco(
+codendereco integer primary key,
+rua char(80) not null,
+numero varchar(10) not null,
+cidade varchar(80) not null,
+uf char(2) not null,
+cod_cliente integer not null,
+foreign key(cod_cliente) references cliente(codcliente)
+);
+
+======= exibir as tabelas e suas estruturas =====
+\d 
+
+\d cliente 
+\d pessoafisica
+\d pessoajuridica
+\d endereco;
+
+==== recriar as tabelas de pessoafisica e pessoajuridica ======
+
+drop table pessoafisica
+drop table pessoajuridica 
+
+
+
+
+
+
+create table pessoajuridica(
+codcliente integer primary key,
+cnpj char(18) not null,
+ramo varchar(20) not null,
+foreign key(codcliente) references cliente(codcliente) on delete cascade
+
+);
+
+
+create table endereco(
+codendereco integer primary key,
+rua char(80) not null,
+numero varchar(10) not null,
+cidade varchar(80) not null,
+uf char(2) not null,
+cod_cliente integer not null,
+foreign key(cod_cliente) references cliente(codcliente) on delete cascade
+);
+
+
+\d
+
+==== sequence (sequência) - objetivo utilidade para gerar valores sequenciais.
+
+create sequence seqcliente;
+
+=== inserir dados nas tabelas ===
+
+insert into cliente values(nextval('seqcliente'),'ana','ana@uol.com',4000);
+
+select * from cliente;
+
+insert into cliente values(nextval('seqcliente'),'leo','leo@uol.com',5000);
+
+select * from cliente;
+
+insert into cliente values(nextval('seqcliente'),'edu','dudu@uol.com',5000);
+insert into cliente values(nextval('seqcliente'),'marlon','marlon@bol.com',25000);
+insert into cliente values(nextval('seqcliente'),'felipe','lipe@globo.com',15000);
+insert into cliente values(nextval('seqcliente'),'theodoro','teo@uol.com',16000);
+
+select * from cliente;
+
+create sequence seqend start with 1001;
+
+insert into endereco values(nextval('seqend'),'rua b','200','cidade rj','rj',1);
+insert into endereco values(nestval('seqend'),'rua s','318','cidade rj','rj',2)
+
+=============================================================================
+dos 6 clientes cadastrados em 3 sao pessoas fisicas e 3 sao pessoas juridica, insira esta
+informacão nas repectivas tabelas.
+
+/*nome, email, cpf, sexo, renda das pessoas fisicas*/
+
+/*nome, email, cpf, sexo, renda das mulheres pessoas fisicas*/
+
+/*nome, cpf, sexo, rua, cidade, uf das pessoas fisicas*/
+===== CONSULTAS ======================
+
+NOME,EMAIL,CPF,SEXO E RENDA DAS PESSOAS FISICAS
+
+SELECT NOME, EMAIL, CPF, SEXO, RENDA
+	FROM cliente INNER JOIN pessoaFisica
+	ON cliente.codCliente = pessoaFisica.codCliente;
+ 
+
+
+
+
+NOME, EMAIL, CNPJ, E RAMO DAS PESSOAS JURIDICAS
+
+
+SELECT nome, email, cpf, rua, cidade, uf
+	FROM cliente c
+	INNER JOIN pessoaFisica pf on c.codCliente = pf.codCliente
+	INNER JOIN endereco e on c.codCliente = e.cod_cliente
+	where pf.sexo = 'f';
+
+SELECT nome, email, cnpj, ramo, renda
+	from cliente c INNER JOIN pessoaJuridica pj
+	ON c.codCliente = pj.codCliente;
+
+NOME, EMAIL, CPF, SEXO E RENDA DAS MULHERES QUE SAO PESSOA FISICA
+
+NOME, CPF,SEXO, RUA, CIDADE, UF PESSOA FISICA
+
+CREATE SEQUENCE SEQCLI START WITH 2000;
+
+
+-- INSERIR DADOS NAS TABELAS.
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'ana', 'ana@uol.com', 4000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'pedro', 'pedro@bol.com', 5000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'paulo', 'paulo@globo.com', 6000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'jonas', 'jonas@ig.com', 7000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'joao', 'joao@uol.com', 8000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'jose', 'jose@uol.com', 9000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'paulo', 'paulo@globo.com', 10000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'pedro', 'pedro@msn.com', 11000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('SEQCLI'), 'ANA', 'ANA@UOL.COM', 4000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('SEQCLI'), 'AGATHA', 'GATHA@UOL.COM', 4500);
+INSERT INTO CLIENTE VALUES(NEXTVAL('SEQCLI'), 'LUIZA', 'LUIZA@GLOBO.COM', 5000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('SEQCLI'), 'RAEL', 'RAEL@GMAIL.COM', 5500);
+INSERT INTO CLIENTE VALUES(NEXTVAL('SEQCLI'), 'VITOR', 'VIT@UOL.COM', 6000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('SEQCLI'), 'LORENA', 'LOLO@GMAIL.COM', 6500);
+
+select * from cliente; 
+
+INSERT INTO PESSOAFISICA VALUES(2,'123.123.123-22','M');
+INSERT INTO PESSOAFISICA VALUES(3,'123.123.123-33','F');
+INSERT INTO PESSOAFISICA VALUES(4,'123.123.123-44','M');
+INSERT INTO PESSOAFISICA VALUES(5,'123.123.123-55','M');
+
+select * from pessoafisica;
+
+INSERT INTO PESSOAJURIDICA VALUES(4,'11.111.11/0001-16','COMERCIAL');
+INSERT INTO PESSOAJURIDICA VALUES(5,'22.222.22/0002-15','EDUCACIONAL');
+
+select * from pessoajuridica;
+
+=======
+nome,email,cpf, sexo e renda das mulheres que são pessoa fisica
+
+select nome, email, cpf, rua, cidade, uf
+from cliente c
+inner join pessoafisica pf on c.codcliente = pf.codcliente
+inner join endereco e on c.codcliente = e.cod_cliente 
+where pf.sexo = 'f';
+
+\nome,email,cpf,sexo,renda 
+
+
+
+NOME, EMAIL, CPF, SEXO E RENDA DAS MULHERES QUE
+SÃO PESSOA FÍSICA
+
+SELECT nome, email, cpf, rua, cidade, uf
+	FROM cliente c
+	INNER JOIN pessoaFisica pf on c.codCliente = pf.codCliente
+	INNER JOIN endereco e on c.codCliente = e.cod_cliente
+	where pf.sexo = 'f';
+
+
+
+select c.nome,c.renda,f.cpf,f.sexo from cliente c
+inner join pessoafisica f on f.codcliente = c.codcliente where sexo = 'f';
+
+
+NOME , CPF, SEXO, RUA , CIDADE, UF PESSOA FÍSICA
+
+create sequence seqcli START WITH 2000;
+
+
+-- INSERIR DADOS NAS TABELAS.
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'ana', 'ana@uol.com', 4000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'pedro', 'pedro@bol.com', 5000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'paulo', 'paulo@globo.com', 6000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'jonas', 'jonas@ig.com', 7000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'joao', 'joao@uol.com', 8000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'jose', 'jose@uol.com', 9000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'paulo', 'paulo@globo.com', 10000);
+INSERT INTO CLIENTE VALUES(NEXTVAL('seqcli'), 'pedro', 'pedro@msn.com', 11000);
+
+
+INSERT INTO pessoaFisica  VALUES(2, '123.123.123-22','m');
+INSERT INTO pessoaFisica  VALUES(3, '123.123.123-33','f');
+INSERT INTO pessoaFisica  VALUES(4, '123.123.123-44','m');
+INSERT INTO pessoaFisica  VALUES(5, '123.123.123-55','m');
+
+
+INSERT INTO pessoaJuridica VALUES(4,'11.111.11/0001-16', 'COMERCIAL');
+INSERT INTO pessoaJuridica VALUES(5,'22.222.22/0001-15', 'EDUCACIONAL');
+
+
+/nome,cpf,sexo,rua,cidade,uf das pessoas fisica e juridica
+select c.nome,c.renda,f.cpf,f.sexo,e.cidade,e.uf from cliente c
+inner join pessoafisica f on f.codcliente = c.codcliente
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

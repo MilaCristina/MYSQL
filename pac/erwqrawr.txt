@@ -1,0 +1,66 @@
+#Criar as tabelas conforme modelo.
+
+cliente
+telefone
+endereco
+-------------------------------------------------------------------------
+create table cliente(
+idcliente int primary key auto_increment,
+nome varchar(30) not null,
+email varchar(30) unique,
+sexo enum('m','f','o') not null
+);
+-------------------------------------------------------------------------
+
+# VERIFICAR A ESTRUTURA DE UMA TABELA
+desc (nome da tabela);
+--------------------------------------------------------------------------
+
+create table endereco(
+idendereco int primary key auto_increment,
+rua varchar(30) not null,
+bairro varchar(30) not null,
+cidade varchar(30) not null,
+id_cliente int,
+foreign key(id_cliente) references cliente(idcliente)
+
+);
+
+-------------------------------------------------------------------
+#VISUALIZAR AS TABELAS CRIADAS
+show tables;
+
+-------------------------------------------------------------------
+
+create table telefone(
+idtelefone int primary key auto_increment,
+tipo enum('cel','res','com') not null,
+numero char(10),
+id_cliente int,
+foreign key(id_cliente) references cliente(idcliente)
+
+);
+
+----------------------------------------------------------------------
+desc telefone;
+----------------------------------------------------------------------
+#PRENCHER AS TABELAS
+
+insert into cliente values (null,'barbara','baby@gmail.com','f');
+insert into cliente values (null,'andressa','andressa@gmail.com','f');
+insert into cliente values (null,'saulo','saulo@gmail.com','m');
+insert into cliente values (null,'lucas','lucas@gmail.com','m');
+insert into cliente values (null,'pedro','pedro@gmail.com','m');
+
+insert into endereco values(null,'rua a','caju','rj',1);
+insert into endereco values(null,'rua b','penha','rj',2);
+insert into endereco values(null,'rua c','caju','rj',3);
+insert into endereco values(null,'rua d','bras de pina','rj'4);
+insert into endereco values(null,'rua e','centro','rj',5);
+
+insert into telefone values(null,'cel','1111-2222',1);
+insert into telefone values(null,'res','2222-2222',1);
+insert into telefone values(null,'cel','1111-3333',2);
+insert into telefone values(null,'com','3333-2222',3);
+insert into telefone values(null,'cel','4444-2222',4);
+insert into telefone values(null,'cel','5555-2222',5
